@@ -98,7 +98,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+if(!f._fbq)f._fbq=n;n.push=n.loaded=!0;n.version='2.0';
 n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
@@ -149,68 +149,56 @@ src="https://www.facebook.com/tr?id=3414485338688940&ev=PageView&noscript=1"
   body.template-page.page-swym-wishlist .swym-storefront-layout-action-tooltip-btn svg path {
     fill:#a85a3b !important; stroke:#a85a3b !important;
   }
-  .wishlist-count[hidden] {
-  display: none !important;
-}
 
+  /* Badge hide utility */
+  .wishlist-count[hidden] { display: none !important; }
 
-/* Hidden attribute enforce — kuch themes isay override kar deti hain */
-.wishlist-count[hidden] { display: none !important; }
+  /* Header link positioning for badge */
+  a.header__icon.has-wishlist-badge,
+  a.header__icon[aria-label^="Wishlist"],
+  a.header__icon[title^="Wishlist"],
+  a.header__icon[href*="wishlist"] {
+    position: relative;
+  }
 
-/* Header link ko positioning context do (sirf wishlist wale) */
-a.header__icon.has-wishlist-badge,
-a.header__icon[aria-label^="Wishlist"],
-a.header__icon[title^="Wishlist"],
-a.header__icon[href*="wishlist"] {
-  position: relative;
-}
-
-/* Badge: strong selector taake theme se jeet jaye */
-a.header__icon.has-wishlist-badge > .wishlist-count,
-a.header__icon[aria-label^="Wishlist"] > .wishlist-count,
-a.header__icon[title^="Wishlist"] > .wishlist-count,
-a.header__icon[href*="wishlist"] > .wishlist-count {
-  position: absolute;
-  top: -6px;            /* adjust karo agar icon size different ho */
-  right: -6px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
-  border-radius: 999px;
-  box-sizing: border-box;
-
-  /* Text */
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 1;
-  white-space: nowrap;
-
-  /* Colors (changeable) */
-  background: #a85a3b;
-  color: #fff;
-
-  /* Safety */
-  z-index: 2;
-  pointer-events: none; /* click icon par hi jaye */
-}
-
-/* Agar header icon chhota hai, yeh compact variant help karta hai */
-@media (max-width: 480px) {
+  /* Badge strong selector */
   a.header__icon.has-wishlist-badge > .wishlist-count,
   a.header__icon[aria-label^="Wishlist"] > .wishlist-count,
   a.header__icon[title^="Wishlist"] > .wishlist-count,
   a.header__icon[href*="wishlist"] > .wishlist-count {
-    top: -4px;
-    right: -4px;
-    min-width: 16px;
-    height: 16px;
-    font-size: 11px;
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    box-sizing: border-box;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+    background: #a85a3b;
+    color: #fff;
+    z-index: 2;
+    pointer-events: none;
   }
-}
 
+  @media (max-width: 480px) {
+    a.header__icon.has-wishlist-badge > .wishlist-count,
+    a.header__icon[aria-label^="Wishlist"] > .wishlist-count,
+    a.header__icon[title^="Wishlist"] > .wishlist-count,
+    a.header__icon[href*="wishlist"] > .wishlist-count {
+      top: -4px;
+      right: -4px;
+      min-width: 16px;
+      height: 16px;
+      font-size: 11px;
+    }
+  }
 </style>
 
 <script type="text/javascript">
@@ -225,13 +213,6 @@ a.header__icon[href*="wishlist"] > .wishlist-count {
 <script>
 function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricoil.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"8711f68830983b188c2b19dbf359784a"})});
 </script>
-
-
-
-
-
-
-
 
   </head>
 
@@ -280,9 +261,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </symbol>
     </svg>
 
-    {%- if settings.image_loading_bar_enabled %}
+    {%- if settings.image_loading_bar_enabled -%}
       <script src="{{ 'lazyimage.js' | asset_url }}" async></script>
-    {% endif -%}
+    {%- endif -%}
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
@@ -298,14 +279,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   {%- render "ecom_footer"-%}
 
-  <!-- ✅ Wishlist badge control: paste just before </body> -->
+  <!-- ✅ Wishlist badge + PDP/SVG/Collections logic (Swym) — paste just before </body> -->
 <script>
 (function () {
   const STORAGE_KEY = 'swymWishlistCountDisplay';
+  const THEME_HEX = '#a85a3b';
+  const THEME_RGB = 'rgb(168, 90, 59)';
 
-  /* ----------------- Helpers ----------------- */
+  /* ----------------- Header link & badge helpers ----------------- */
   function getHeaderLink() {
-    // CHANGED: be tolerant to "Wishlist (n)" etc.
     return document.querySelector('a.header__icon[aria-label^="Wishlist"]')
         || document.querySelector('a.header__icon[title^="Wishlist"]')
         || document.querySelector('a.header__icon[href*="wishlist"]');
@@ -319,52 +301,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (!badge) {
       badge = document.createElement('span');
       badge.className = 'wishlist-count';
-      badge.hidden = true;                 // stays hidden until count >= 1
+      badge.hidden = true;                   // zero par hidden
       badge.textContent = '0';
 
-      // minimal styling so it shows even if CSS not loaded yet
+      // minimal fallback styling — CSS load se pehle bhi visible rahe
       if (getComputedStyle(link).position === 'static') link.style.position = 'relative';
       Object.assign(badge.style, {
         position:'absolute', top:'-6px', right:'-6px',
         minWidth:'18px', height:'18px', lineHeight:'18px',
         padding:'0 5px', borderRadius:'9px',
         fontSize:'12px', fontWeight:'600', textAlign:'center',
-        background:'#a85a3b', color:'#fff'
+        background: THEME_HEX, color:'#fff', zIndex:'2', pointerEvents:'none'
       });
+
       link.appendChild(badge);
+      link.classList.add('has-wishlist-badge');
     }
     return badge;
   }
 
-  function storeCount(n){
-    try { localStorage.setItem(STORAGE_KEY, String(Math.max(0, Number(n)||0))); } catch(e){}
-  }
+  function storeCount(n){ try { localStorage.setItem(STORAGE_KEY, String(Math.max(0, Number(n)||0))); } catch(e){} }
   function readStoredCount(){
-    try {
-      const v = parseInt(localStorage.getItem(STORAGE_KEY)||'0', 10);
-      return isNaN(v) ? 0 : v;
-    } catch(e){ return 0; }
+    try { const v = parseInt(localStorage.getItem(STORAGE_KEY)||'0', 10); return isNaN(v) ? 0 : v; }
+    catch(e){ return 0; }
   }
 
   function drawBadge(n, {persist=true} = {}) {
     const b = ensureBadge();
     if (!b) return;
-
     n = Math.max(0, Number(n)||0);
-
-    if (n > 0) {
-      b.textContent = n > 9 ? '9+' : String(n);
-      b.hidden = false;                    // only display when >= 1
-    } else {
-      b.textContent = '0';
-      b.hidden = true;                     // hide on zero
-    }
-
-    // Keep labels consistent but lenient for future queries
+    if (n > 0) { b.textContent = n > 9 ? '9+' : String(n); b.hidden = false; }
+    else { b.textContent = '0'; b.hidden = true; }
     const parent = b.closest('a,button') || b;
     parent.setAttribute('aria-label', n > 0 ? `Wishlist (${n})` : 'Wishlist');
     parent.setAttribute('title',     n > 0 ? `Wishlist (${n})` : 'Wishlist');
-
     if (persist) storeCount(n);
   }
 
@@ -375,132 +345,197 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     return isNaN(n) ? 0 : n;
   }
 
-  /* --------- Behaviour guards --------- */
-  let hasInitialSync = false;        // until first Swym count arrives
-  let removeClickInProgress = false; // only allow decreases after remove click
-
-  function safeSetCountFromSwym(newCount) {
-    const current = getBadgeCount();
-    const stored  = readStoredCount();
-
-    // First sync: if Swym returns 0 but we had a number, keep previous (no 0 flash)
-    if (!hasInitialSync) {
-      hasInitialSync = true;
-      if (newCount === 0 && Math.max(current, stored) > 0) {
-        drawBadge(Math.max(current, stored)); // keep previous, persist
-        return;
-      }
-      drawBadge(newCount);
-      return;
-    }
-
-    // Later updates: ignore decreases unless triggered by remove button
-    if (newCount < current && !removeClickInProgress) {
-      return;
-    }
-    drawBadge(newCount);
-  }
-
-  /* ------------- Swym integration ------------- */
+  /* ----------------- Swym: source of truth ----------------- */
   function fetchWishlistCount() {
     if (!window._swat || !window._swat.fetchWrtEventTypeET) return;
     window._swat.fetchWrtEventTypeET({ et: 5 }, function(items) {
-      const count = items ? items.length : 0;
-      safeSetCountFromSwym(count);
+      drawBadge(items ? items.length : 0);
     });
   }
 
   function onSwymReady() {
     fetchWishlistCount();
     if (window._swat && window._swat.on) {
-      window._swat.on('wishlistUpdated', fetchWishlistCount);
       try {
-        window._swat.on('item-added', fetchWishlistCount);
-        window._swat.on('item-removed', fetchWishlistCount);
+        window._swat.on('wishlistUpdated', fetchWishlistCount);
+        window._swat.on('item-added',      fetchWishlistCount);
+        window._swat.on('item-removed',    fetchWishlistCount);
       } catch(e){}
     }
   }
 
-  /* ------------- Inline SVG classifier (ADD / REMOVE) ------------- */
+  /* ----------------- Detect if Swym popup just opened ----------------- */
+  function detectSwymPopupOpening(callback) {
+    const appearsOpen = () => {
+      const el = document.querySelector(
+        '.swym-ui, .swym-modal, .swym-wishlist-modal, .swym-overlay, [role="dialog"][class*="swym"]'
+      );
+      return !!(el && getComputedStyle(el).display !== 'none' && el.offsetParent !== null);
+    };
+    if (appearsOpen()) { callback(true); return; }
+
+    let opened = false;
+    const obs = new MutationObserver(() => {
+      if (appearsOpen()) { opened = true; obs.disconnect(); callback(true); }
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+
+    // 400ms window: if nothing appears, assume no popup
+    setTimeout(() => { if (!opened) { obs.disconnect(); callback(false); } }, 400);
+  }
+
+  /* ----------------- Helpers to avoid false-positives ----------------- */
+  function classString(el){
+    if (!el) return '';
+    const c = el.className;
+    return typeof c === 'string' ? c : (c && c.baseVal) ? c.baseVal : '';
+  }
+
+  function isCloseControl(target) {
+    const node = (target.closest && target.closest('button, a, [role="button"], svg')) || target;
+    if (!node) return false;
+
+    const ariaHiddenTrue = node.closest('[aria-hidden="true"]');
+    if (ariaHiddenTrue && node.closest('svg')) return true; // hidden SVGs
+
+    const label = (node.getAttribute && (node.getAttribute('aria-label') || node.getAttribute('title'))) || '';
+    const titleEl = node.querySelector && node.querySelector('title');
+    const titleTxt = titleEl ? (titleEl.textContent || '') : '';
+    const idTxt = (node.id || '');
+    const cls = classString(node);
+
+    const haystack = [label, titleTxt, idTxt, cls].join(' ').toLowerCase();
+
+    // common “close” keywords & klaviyo classes
+    if (/(^|\s)(close|dismiss|cancel|cross|x)(\s|$)/i.test(haystack)) return true;
+    if (/klaviyo/.test(haystack) && /close/.test(haystack)) return true;
+    if (/title-?close-?dialog/i.test(haystack)) return true;
+
+    return false;
+  }
+
+  function attrColor(el, attr) {
+    const v = (el.getAttribute && el.getAttribute(attr)) || '';
+    return (v || '').trim().toLowerCase();
+  }
+
+  function isThemeColor(val) {
+    if (!val) return false;
+    const v = val.replace(/\s+/g,'').toLowerCase();
+    return v.includes(THEME_HEX) || v.includes(THEME_RGB);
+  }
+
+  function svgLooksLikeHeart(svg) {
+    // Heuristic: treat as our heart only if path uses theme color
+    const path = svg && svg.querySelector && svg.querySelector('path');
+    if (!path) return false;
+    const stroke = attrColor(path, 'stroke');
+    const fill   = attrColor(path, 'fill');
+    const cssColor = getComputedStyle(svg).color.toLowerCase();
+    return isThemeColor(stroke) || isThemeColor(fill) || isThemeColor(cssColor);
+  }
+
+  /* ----------------- Identify inline SVG heart (outline/filled) ----------------- */
   function classifyInlineSvgHeart(el) {
     const svg = el.closest && el.closest('svg');
     if (!svg) return null;
 
-    // Never treat header icon as a click target for count changes
+    // Ignore header icon
     const header = getHeaderLink();
     if (header && header.contains(svg)) return null;
 
-    // Explicit classes win if present
-    if (svg.classList.contains('inline-heart-add')) return 'add';
-    if (svg.classList.contains('inline-heart-remove')) return 'remove';
+    // Ignore explicit close controls
+    if (isCloseControl(svg)) return null;
 
-    // If it uses the theme sprite heart, consider it "add" (outline)
-    const useEl = svg.querySelector('use[href="#icon-heart"], use[xlink\\:href="#icon-heart"]');
-    if (useEl) return 'add';
+    // Only treat as heart if it uses our theme color
+    if (!svgLooksLikeHeart(svg)) return null;
 
-    // Inspect the first <path> fill to decide:
     const path = svg.querySelector('path');
     if (!path) return null;
 
-    const fill = (path.getAttribute('fill') || '').trim().toLowerCase();
-
+    const fill = (attrColor(path, 'fill') || '');
     // outline heart => ADD, filled heart => REMOVE
     if (fill === '' || fill === 'none' || fill === 'transparent') return 'add';
     return 'remove';
   }
 
-  /* ------------- Click handling ------------- */
+  /* ----------------- Click handling ----------------- */
   document.addEventListener('click', function(e){
-    const headerLink = getHeaderLink();
+    // 0) Global guard: ignore any Close/Dismiss/Cross clicks
+    if (isCloseControl(e.target)) return;
 
-    // Ignore clicks inside the header wishlist link/icon (no count change)
+    const headerLink = getHeaderLink();
     if (headerLink && e.target && headerLink.contains(e.target)) {
-      return; // allow navigation only
+      return; // header -> navigation only
     }
 
-    // ADD via Swym buttons (product/listing/PDP)
-    const addBtn = e.target.closest &&
-      e.target.closest('#swym-vs-add-to-wishlist-single, .swym-add-to-wishlist-single, .swym-wishlist-collections-v2, [data-swaction="addToWishlist"]');
-
-    if (addBtn) {
-      drawBadge(getBadgeCount() + 1);  // instant +1 and persist
-      const svg = e.target.closest && e.target.closest('svg');
-      if (svg) svg.classList.add('is-filled'); // optional visual
+    /* 1) PDP button (#swym-vs-add-to-wishlist-single) */
+    const pdpBtn = e.target.closest && e.target.closest('#swym-vs-add-to-wishlist-single.swym-add-to-wishlist-single');
+    if (pdpBtn) {
+      const text      = (pdpBtn.textContent || '').trim().toLowerCase();
+      const inListCls = pdpBtn.classList.contains('variant-in-wishlist');
+      const isRemove  = inListCls || /remove\s*from\s*list/i.test(text);
+      const isAdd     = !inListCls && /add\s*to\s*list/i.test(text);
+      if (isAdd)    drawBadge(getBadgeCount() + 1);
+      if (isRemove) drawBadge(Math.max(0, getBadgeCount() - 1));
       return;
     }
 
-    // Inline SVG hearts (custom icons)
+    /* 2) Collections heart button (.swym-wishlist-collections-v2) with popup gating */
+    const colBtn = e.target.closest && e.target.closest('button.swym-wishlist-collections-v2');
+    if (colBtn) {
+      const pressed = String(colBtn.getAttribute('aria-pressed')).toLowerCase() === 'true';
+      const deltaIfNoPopup = pressed ? -1 : +1;
+
+      const al = (colBtn.getAttribute('aria-label') || '').toLowerCase();
+      const likelyOpener = /view\s*wishlist/.test(al) || /open/.test(al);
+
+      detectSwymPopupOpening(function(opened){
+        if (!opened && !likelyOpener) {
+          drawBadge(Math.max(0, getBadgeCount() + deltaIfNoPopup));
+        }
+      });
+      return;
+    }
+
+    /* 3) Raw inline SVG hearts (theme-colored) with popup gating */
     const classification = classifyInlineSvgHeart(e.target);
-    if (classification === 'add') {
+    if (classification === 'add' || classification === 'remove') {
+      const delta = classification === 'add' ? +1 : -1;
+      // Agar click se popup open ho raha hai -> NO counter change
+      detectSwymPopupOpening(function(opened){
+        if (!opened) {
+          drawBadge(Math.max(0, getBadgeCount() + delta));
+        }
+      });
+      return;
+    }
+
+    /* 4) Generic Swym add triggers (excluding collections button) */
+    const addBtn = e.target.closest &&
+      e.target.closest('[data-swaction="addToWishlist"], .swym-add-to-wishlist-single');
+    if (addBtn && !addBtn.closest('.swym-wishlist-collections-v2')) {
       drawBadge(getBadgeCount() + 1);
       const svg = e.target.closest && e.target.closest('svg');
       if (svg) svg.classList.add('is-filled');
       return;
     }
-    if (classification === 'remove') {
-      removeClickInProgress = true;
-      drawBadge(Math.max(0, getBadgeCount() - 1));
-      setTimeout(function(){ removeClickInProgress = false; }, 1500);
-      return;
-    }
 
-    // REMOVE via Swym remove button (wishlist page)
+    /* 5) Wishlist page remove control */
     const removeBtn = e.target.closest &&
       e.target.closest('.swym-storefront-layout-action-tooltip-btn.remove-from-list-button');
     if (removeBtn) {
-      removeClickInProgress = true;
-      drawBadge(Math.max(0, getBadgeCount() - 1)); // instant -1 and persist
-      setTimeout(function(){ removeClickInProgress = false; }, 1500);
+      drawBadge(Math.max(0, getBadgeCount() - 1));
       return;
     }
   });
 
-  /* ------------- First paint (no 0 flash) ------------- */
+  /* ----------------- First paint ----------------- */
   document.addEventListener('DOMContentLoaded', function(){
     ensureBadge();
     const saved = readStoredCount();
     if (saved > 0) {
-      drawBadge(saved, {persist:false}); // show last known value immediately
+      drawBadge(saved, {persist:false}); // prepaint; Swym sync will correct
     }
   });
 
@@ -509,9 +544,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   window.SwymCallbacks.push(onSwymReady);
 })();
 </script>
-
-
-
 
   <!-- Metricool (footer) -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"8711f68830983b188c2b19dbf359784a"})});</script>
