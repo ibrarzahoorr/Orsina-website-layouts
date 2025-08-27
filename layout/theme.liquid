@@ -1,0 +1,520 @@
+{%- assign text_direction = 'localization.text_direction_trigger' | t | downcase -%}
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}"
+  {%- if text_direction == 'rtl' %} dir="rtl"{% endif -%}
+>
+  <head>
+ {%- render 'ecom_header' -%}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <meta name="google-site-verification" content="RM8cCNg1zcq2rOEzroFlzSVv1kihc3ZcQOV3yzcf5JE" />
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M6XM24PT');</script>
+<!-- End Google Tag Manager -->
+    
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    <meta name="msvalidate.01" content="82B3573226AE640542FE42D0556355B6" />
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {% render 'meta-tags' %}
+    <meta name="google-site-verification" content="Cqi_Sa43Cdge2vGwQSa7GJZv7Jb6NYDqht_ST5B9ID4" />
+    <script src="{{ 'vendor-v4.js' | asset_url | split: '?' | first }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script crossorigin="anonymous" src="{{ 'modules-basis.js' | asset_url }}" defer="defer"></script>
+
+    {{ content_for_header }}
+
+    {%- liquid
+      render 'css-variables'
+      echo 'base.css' | asset_url | stylesheet_tag: preload: true
+      
+      if text_direction == 'rtl'
+        echo 'rtl.css' | asset_url | stylesheet_tag
+      endif
+    -%}
+
+    <link rel="stylesheet" href="{{ 'apps.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
+
+    {%- unless settings.type_body_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    
+    {%- if settings.predictive_search_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
+    {%- if settings.quick_view_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-quick-view.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
+    {%- if settings.color_swatches_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-color-swatches.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
+    {%- if linklists.gift-wrapping.links != blank and linklists.gift-wrapping.links.first.type == 'product_link' -%}
+      <link rel="stylesheet" href="{{ 'component-gift-wrapping.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript>{{ 'component-gift-wrapping.css' | asset_url | stylesheet_tag }}</noscript>
+    {%- endif -%}
+
+    {%- render 'js-variables' -%}
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0VQ9YSC07S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0VQ9YSC07S');
+</script>
+
+    <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '3414485338688940');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=3414485338688940&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<style>
+  @keyframes bounce { from { transform: translateY(0px);} to { transform: translateY(-10px);} }
+  @-webkit-keyframes salePulse {
+    from { background-color: #a85a3b; }
+    50%  { background-color: #800020; -webkit-transform: scale(1.1); }
+    to   { background-color: #a85a3b; }
+  }
+  ul.list-menu.list-menu--inline> li:nth-last-child(2) {
+    background: #a85a3b; display:block; width:50px; text-align:center; border-radius:3em;
+    color:#fff; font-weight:bold; -webkit-animation-name:salePulse; -webkit-animation-duration:1s;
+    -webkit-animation-iteration-count: infinite; margin:0 auto; animation:bounce 300ms alternate infinite cubic-bezier(.2,.65,.6,1);
+  }
+  ul.list-menu.list-menu--inline> li:nth-last-child(2):hover { animation-play-state: paused; }
+  ul.list-menu.list-menu--inline> li:nth-last-child(2) a { color:#fff !important; }
+
+  /* Swym hearts: outline by default */
+  .swym-wishlist-collections-v2 svg use,
+  .swym-add-to-wishlist svg use { fill: none; stroke: currentColor; stroke-width: 1.7; }
+
+  /* Swym hearts: filled when pressed */
+  .swym-wishlist-collections-v2[aria-pressed="true"] svg use,
+  .swym-add-to-wishlist[aria-pressed="true"] svg use { fill: currentColor; stroke: currentColor; }
+
+  /* Theme color for hearts */
+  .swym-wishlist-collections-v2 svg,
+  .swym-add-to-wishlist svg { color: #a85a3b; }
+
+  /* Inline SVG heart support (we add .is-filled on click) */
+  svg.inline-heart-add.is-filled path,
+  svg.is-filled path { fill:#a85a3b !important; stroke:#a85a3b !important; }
+
+  /* Ensure sprite use for #icon-heart looks themed */
+  svg use[href="#icon-heart"] { stroke:#a85a3b; fill:none; }
+
+  /* Wishlist page: trash/remove icon theme color */
+  body.template-page.page-swym-wishlist .swym-storefront-layout-action-tooltip-btn svg path {
+    fill:#a85a3b !important; stroke:#a85a3b !important;
+  }
+  .wishlist-count[hidden] {
+  display: none !important;
+}
+
+
+/* Hidden attribute enforce — kuch themes isay override kar deti hain */
+.wishlist-count[hidden] { display: none !important; }
+
+/* Header link ko positioning context do (sirf wishlist wale) */
+a.header__icon.has-wishlist-badge,
+a.header__icon[aria-label^="Wishlist"],
+a.header__icon[title^="Wishlist"],
+a.header__icon[href*="wishlist"] {
+  position: relative;
+}
+
+/* Badge: strong selector taake theme se jeet jaye */
+a.header__icon.has-wishlist-badge > .wishlist-count,
+a.header__icon[aria-label^="Wishlist"] > .wishlist-count,
+a.header__icon[title^="Wishlist"] > .wishlist-count,
+a.header__icon[href*="wishlist"] > .wishlist-count {
+  position: absolute;
+  top: -6px;            /* adjust karo agar icon size different ho */
+  right: -6px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  box-sizing: border-box;
+
+  /* Text */
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+
+  /* Colors (changeable) */
+  background: #a85a3b;
+  color: #fff;
+
+  /* Safety */
+  z-index: 2;
+  pointer-events: none; /* click icon par hi jaye */
+}
+
+/* Agar header icon chhota hai, yeh compact variant help karta hai */
+@media (max-width: 480px) {
+  a.header__icon.has-wishlist-badge > .wishlist-count,
+  a.header__icon[aria-label^="Wishlist"] > .wishlist-count,
+  a.header__icon[title^="Wishlist"] > .wishlist-count,
+  a.header__icon[href*="wishlist"] > .wishlist-count {
+    top: -4px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    font-size: 11px;
+  }
+}
+
+</style>
+
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "r5n66fd3zq");
+</script>
+
+<!-- Metricool Tracking Script (HEAD) -->
+<script>
+function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricoil.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"8711f68830983b188c2b19dbf359784a"})});
+</script>
+
+
+
+
+
+
+
+
+  </head>
+
+  <body class="template-{{ request.page_type }}{% if request.design_mode %} shopify-design-mode{% endif %}"
+    {%- if settings.image_zoom_effect_enabled %} data-animate-image{% endif -%}
+    {%- if settings.image_loading_bar_enabled %} data-lazy-image{% endif -%}
+    {%- if settings.heading_capitalize %} data-heading-capitalize{% endif -%}
+    {%- if settings.heading_center %} data-heading-center{% endif -%}
+    {%- if settings.price_superscript %} data-price-superscript{% endif -%}
+    {%- if settings.button_corner_radius > 0 %} data-button-round{% endif -%}
+  >
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M6XM24PT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    
+    <a class="skip-to-content-link button button--small visually-hidden" href="#MainContent">
+      {{ "accessibility.skip_to_text" | t }}
+    </a>
+
+    {% render 'transition-cover' %}
+
+    <div class="transition-body">
+      {% sections 'header-group' %}
+
+      <div class="transition-content">
+        <main id="MainContent" class="content-for-layout focus-none shopify-section" role="main" tabindex="-1">
+          {{ content_for_layout }}
+        </main>
+
+        {% sections 'footer-group' %}
+      </div>
+    </div>
+
+    {% sections 'overlay-group' %}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+    </ul>
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+      <symbol id="icon-cart" fill="none" viewbox="0 0 18 19">
+        <path d="M3.09333 5.87954L16.2853 5.87945V5.87945C16.3948 5.8795 16.4836 5.96831 16.4836 6.07785V11.4909C16.4836 11.974 16.1363 12.389 15.6603 12.4714C11.3279 13.2209 9.49656 13.2033 5.25251 13.9258C4.68216 14.0229 4.14294 13.6285 4.0774 13.0537C3.77443 10.3963 2.99795 3.58502 2.88887 2.62142C2.75288 1.42015 0.905376 1.51528 0.283581 1.51478" stroke="currentColor"/>
+        <path d="M13.3143 16.8554C13.3143 17.6005 13.9183 18.2045 14.6634 18.2045C15.4085 18.2045 16.0125 17.6005 16.0125 16.8554C16.0125 16.1104 15.4085 15.5063 14.6634 15.5063C13.9183 15.5063 13.3143 16.1104 13.3143 16.8554Z" fill="currentColor"/>
+        <path d="M3.72831 16.8554C3.72831 17.6005 4.33233 18.2045 5.07741 18.2045C5.8225 18.2045 6.42651 17.6005 6.42651 16.8554C6.42651 16.1104 5.8225 15.5063 5.07741 15.5063C4.33233 15.5063 3.72831 16.1104 3.72831 16.8554Z" fill="currentColor"/>
+      </symbol>
+    </svg>
+
+    {%- if settings.image_loading_bar_enabled %}
+      <script src="{{ 'lazyimage.js' | asset_url }}" async></script>
+    {% endif -%}
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    {%- if settings.quick_view_enabled -%}
+      <script src="{{ 'quick-view.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    {%- if settings.color_swatches_enabled -%}
+      <script src="{{ 'color-swatches.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    {%- if linklists.gift-wrapping.links != blank and linklists.gift-wrapping.links.first.type == 'product_link' -%}
+      <script src="{{ 'gift-wrapping.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+  {%- render "ecom_footer"-%}
+
+  <!-- ✅ Wishlist badge control: paste just before </body> -->
+<script>
+(function () {
+  const STORAGE_KEY = 'swymWishlistCountDisplay';
+
+  /* ----------------- Helpers ----------------- */
+  function getHeaderLink() {
+    // CHANGED: be tolerant to "Wishlist (n)" etc.
+    return document.querySelector('a.header__icon[aria-label^="Wishlist"]')
+        || document.querySelector('a.header__icon[title^="Wishlist"]')
+        || document.querySelector('a.header__icon[href*="wishlist"]');
+  }
+
+  function ensureBadge() {
+    const link = getHeaderLink();
+    if (!link) return null;
+
+    let badge = link.querySelector('.wishlist-count');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'wishlist-count';
+      badge.hidden = true;                 // stays hidden until count >= 1
+      badge.textContent = '0';
+
+      // minimal styling so it shows even if CSS not loaded yet
+      if (getComputedStyle(link).position === 'static') link.style.position = 'relative';
+      Object.assign(badge.style, {
+        position:'absolute', top:'-6px', right:'-6px',
+        minWidth:'18px', height:'18px', lineHeight:'18px',
+        padding:'0 5px', borderRadius:'9px',
+        fontSize:'12px', fontWeight:'600', textAlign:'center',
+        background:'#a85a3b', color:'#fff'
+      });
+      link.appendChild(badge);
+    }
+    return badge;
+  }
+
+  function storeCount(n){
+    try { localStorage.setItem(STORAGE_KEY, String(Math.max(0, Number(n)||0))); } catch(e){}
+  }
+  function readStoredCount(){
+    try {
+      const v = parseInt(localStorage.getItem(STORAGE_KEY)||'0', 10);
+      return isNaN(v) ? 0 : v;
+    } catch(e){ return 0; }
+  }
+
+  function drawBadge(n, {persist=true} = {}) {
+    const b = ensureBadge();
+    if (!b) return;
+
+    n = Math.max(0, Number(n)||0);
+
+    if (n > 0) {
+      b.textContent = n > 9 ? '9+' : String(n);
+      b.hidden = false;                    // only display when >= 1
+    } else {
+      b.textContent = '0';
+      b.hidden = true;                     // hide on zero
+    }
+
+    // Keep labels consistent but lenient for future queries
+    const parent = b.closest('a,button') || b;
+    parent.setAttribute('aria-label', n > 0 ? `Wishlist (${n})` : 'Wishlist');
+    parent.setAttribute('title',     n > 0 ? `Wishlist (${n})` : 'Wishlist');
+
+    if (persist) storeCount(n);
+  }
+
+  function getBadgeCount() {
+    const b = ensureBadge();
+    if (!b || b.hidden) return 0;
+    const n = parseInt((b.textContent || '0').replace('+',''), 10);
+    return isNaN(n) ? 0 : n;
+  }
+
+  /* --------- Behaviour guards --------- */
+  let hasInitialSync = false;        // until first Swym count arrives
+  let removeClickInProgress = false; // only allow decreases after remove click
+
+  function safeSetCountFromSwym(newCount) {
+    const current = getBadgeCount();
+    const stored  = readStoredCount();
+
+    // First sync: if Swym returns 0 but we had a number, keep previous (no 0 flash)
+    if (!hasInitialSync) {
+      hasInitialSync = true;
+      if (newCount === 0 && Math.max(current, stored) > 0) {
+        drawBadge(Math.max(current, stored)); // keep previous, persist
+        return;
+      }
+      drawBadge(newCount);
+      return;
+    }
+
+    // Later updates: ignore decreases unless triggered by remove button
+    if (newCount < current && !removeClickInProgress) {
+      return;
+    }
+    drawBadge(newCount);
+  }
+
+  /* ------------- Swym integration ------------- */
+  function fetchWishlistCount() {
+    if (!window._swat || !window._swat.fetchWrtEventTypeET) return;
+    window._swat.fetchWrtEventTypeET({ et: 5 }, function(items) {
+      const count = items ? items.length : 0;
+      safeSetCountFromSwym(count);
+    });
+  }
+
+  function onSwymReady() {
+    fetchWishlistCount();
+    if (window._swat && window._swat.on) {
+      window._swat.on('wishlistUpdated', fetchWishlistCount);
+      try {
+        window._swat.on('item-added', fetchWishlistCount);
+        window._swat.on('item-removed', fetchWishlistCount);
+      } catch(e){}
+    }
+  }
+
+  /* ------------- Inline SVG classifier (ADD / REMOVE) ------------- */
+  function classifyInlineSvgHeart(el) {
+    const svg = el.closest && el.closest('svg');
+    if (!svg) return null;
+
+    // Never treat header icon as a click target for count changes
+    const header = getHeaderLink();
+    if (header && header.contains(svg)) return null;
+
+    // Explicit classes win if present
+    if (svg.classList.contains('inline-heart-add')) return 'add';
+    if (svg.classList.contains('inline-heart-remove')) return 'remove';
+
+    // If it uses the theme sprite heart, consider it "add" (outline)
+    const useEl = svg.querySelector('use[href="#icon-heart"], use[xlink\\:href="#icon-heart"]');
+    if (useEl) return 'add';
+
+    // Inspect the first <path> fill to decide:
+    const path = svg.querySelector('path');
+    if (!path) return null;
+
+    const fill = (path.getAttribute('fill') || '').trim().toLowerCase();
+
+    // outline heart => ADD, filled heart => REMOVE
+    if (fill === '' || fill === 'none' || fill === 'transparent') return 'add';
+    return 'remove';
+  }
+
+  /* ------------- Click handling ------------- */
+  document.addEventListener('click', function(e){
+    const headerLink = getHeaderLink();
+
+    // Ignore clicks inside the header wishlist link/icon (no count change)
+    if (headerLink && e.target && headerLink.contains(e.target)) {
+      return; // allow navigation only
+    }
+
+    // ADD via Swym buttons (product/listing/PDP)
+    const addBtn = e.target.closest &&
+      e.target.closest('#swym-vs-add-to-wishlist-single, .swym-add-to-wishlist-single, .swym-wishlist-collections-v2, [data-swaction="addToWishlist"]');
+
+    if (addBtn) {
+      drawBadge(getBadgeCount() + 1);  // instant +1 and persist
+      const svg = e.target.closest && e.target.closest('svg');
+      if (svg) svg.classList.add('is-filled'); // optional visual
+      return;
+    }
+
+    // Inline SVG hearts (custom icons)
+    const classification = classifyInlineSvgHeart(e.target);
+    if (classification === 'add') {
+      drawBadge(getBadgeCount() + 1);
+      const svg = e.target.closest && e.target.closest('svg');
+      if (svg) svg.classList.add('is-filled');
+      return;
+    }
+    if (classification === 'remove') {
+      removeClickInProgress = true;
+      drawBadge(Math.max(0, getBadgeCount() - 1));
+      setTimeout(function(){ removeClickInProgress = false; }, 1500);
+      return;
+    }
+
+    // REMOVE via Swym remove button (wishlist page)
+    const removeBtn = e.target.closest &&
+      e.target.closest('.swym-storefront-layout-action-tooltip-btn.remove-from-list-button');
+    if (removeBtn) {
+      removeClickInProgress = true;
+      drawBadge(Math.max(0, getBadgeCount() - 1)); // instant -1 and persist
+      setTimeout(function(){ removeClickInProgress = false; }, 1500);
+      return;
+    }
+  });
+
+  /* ------------- First paint (no 0 flash) ------------- */
+  document.addEventListener('DOMContentLoaded', function(){
+    ensureBadge();
+    const saved = readStoredCount();
+    if (saved > 0) {
+      drawBadge(saved, {persist:false}); // show last known value immediately
+    }
+  });
+
+  // Swym lifecycle
+  window.SwymCallbacks = window.SwymCallbacks || [];
+  window.SwymCallbacks.push(onSwymReady);
+})();
+</script>
+
+
+
+
+  <!-- Metricool (footer) -->
+  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"8711f68830983b188c2b19dbf359784a"})});</script>
+
+</body>
+</html>
