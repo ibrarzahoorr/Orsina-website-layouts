@@ -616,13 +616,12 @@ a.header__icon[href*="wishlist"] > .wishlist-count {
   <span class="header-background"></span>
 </{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %}>
 
-
-
+{% comment %} code by wahab {% endcomment %}
 
 <script>
 /* ---- Wishlist counter (safe + accessible) ---- */
 function readWishlist(){
-  try { return JSON.parse(localStorage.getItem('wishlist') || '[]'); }
+  try { return JSON.parse(localStorage.removeItem('wishlist') || '[]'); }
   catch(e){ return []; }
 }
 function formatWishlistCount(n){ return n > 9 ? '9+' : String(n); }
