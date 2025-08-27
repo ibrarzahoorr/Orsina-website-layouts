@@ -621,7 +621,7 @@ a.header__icon[href*="wishlist"] > .wishlist-count {
 <script>
 /* ---- Wishlist counter (safe + accessible) ---- */
 function readWishlist(){
-  try { return JSON.parse(localStorage.removeItem('wishlist') || '[]'); }
+  try { return JSON.parse(localStorage.getItem('wishlist') || '[]'); }
   catch(e){ return []; }
 }
 function formatWishlistCount(n){ return n > 9 ? '9+' : String(n); }
