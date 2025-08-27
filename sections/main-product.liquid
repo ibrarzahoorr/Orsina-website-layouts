@@ -266,6 +266,23 @@
                     endif
                   endif
                 -%}
+{% if product.metafields.custom.upsell_products != blank %}
+  <div class="upsell-section">
+    <h3>You may also like</h3>
+    <div class="upsell-products">
+      {% for upsell_product in product.metafields.custom.upsell_products %}
+        {% assign upsell = all_products[upsell_product.handle] %}
+        <div class="upsell-item">
+          <a href="{{ upsell.url }}">
+            <img src="{{ upsell.featured_image | img_url: 'medium' }}" alt="{{ upsell.title }}">
+            <p>{{ upsell.title }}</p>
+            <p>{{ upsell.price | money }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
                 <li id="Slide-Thumbnails-{{ section.id }}-0"
                   class="thumbnail-list__item slider__slide{% if section.settings.hide_variants and variant_images contains featured_media.src %} thumbnail-list_item--variant{% endif %} is-active media-wrapper media-wrapper--small{% if gang_media_active == true %} gang__active{% endif %}"
                   data-target="{{ section.id }}-{{ featured_media.id }}"
